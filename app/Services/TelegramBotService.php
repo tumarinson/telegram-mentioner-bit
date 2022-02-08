@@ -9,8 +9,6 @@ use App\Helpers\AvailableTelegramMethods as TelegramMethods;
 
 final class TelegramBotService
 {
-    const MENTIONER_BOT_ENDPOINT = 'https://api.telegram.org/bot5233399966:AAHXQG9lk-8UGeO8tSOY5W4fPzhJ3McHaqs/'; // pls dont hack me
-
     public function processCommand(Request $request)
     {
         $message = $request->get('message');
@@ -57,13 +55,29 @@ final class TelegramBotService
 
     public function sendMessage(int $chatId, string $message): \Illuminate\Http\Client\Response
     {
-        $endpointForSendingMessage = self::MENTIONER_BOT_ENDPOINT . TelegramMethods::SEND_MESSAGE_METHOD;
+        $endpointForSendingMessage = $this->buildUrlForRequest(TelegramMethods::SEND_MESSAGE_METHOD);
 
         return Http::post($endpointForSendingMessage, ['chat_id' => $chatId, 'text' => $message]);
     }
 
-    public function getMe(): \Illuminate\Http\Client\Response // todo phpunit test health check
+    public function getMe(): \Illuminate\Http\Client\Response // todo test health check
     {
-        return Http::get(self::MENTIONER_BOT_ENDPOINT . TelegramMethods::GET_BOT_STATUS_METHOD);
+        return Http::get($this->buildUrlForRequest(TelegramMethods::GET_BOT_STATUS_METHOD));
+    }
+
+    private function buildUrlForRequest(string $method): string
+    {
+        return $this->trimSlashesForUrl(
+            config('telegram.api_endpoint') . config('bot_token'),
+            $method
+        );
+    }
+
+    private function trimSlashesForUrl(string $host, string $path): string
+    {
+        $host = rtrim($host, '/');
+        $path = ltrim($path, '/');
+
+        return $host . '/' . $path;
     }
 }
