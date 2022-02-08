@@ -6,9 +6,14 @@ use App\Models\GroupMember;
 
 class MentionService
 {
+    const ALL_TAG_KEYS = [
+        '@all', 'all',
+        '@everyone', 'everyone',
+    ];
+
     public static function mention($chatId, array $groupsList): string
     {
-        if (in_array('@all', $groupsList)) {
+        if (self::needTagEveryone($groupsList)) {
             return self::mentionAllUsers($chatId);
         }
 
@@ -28,5 +33,10 @@ class MentionService
             })
             ->pluck('nickname')
             ->implode(' ');
+    }
+
+    public static function needTagEveryone($groupsList): bool
+    {
+        return in_array(self::ALL_TAG_KEYS, $groupsList);
     }
 }

@@ -29,7 +29,7 @@ final class TelegramBotService
                 $text = MentionService::mention($chatId, $explodedCommand);
                 break;
             case '/creategroup':
-                $text = GroupService::createGroup($chatId, $explodedCommand);
+                $text = GroupService::createGroup($chatId, $explodedCommand); // todo creategroup <groupname> <@username1> <@username2>...
                 break;
             case '/deletegroup':
                 $text = GroupService::deleteGroup($chatId, $explodedCommand);
