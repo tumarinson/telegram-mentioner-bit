@@ -68,7 +68,7 @@ final class TelegramBotService
     private function buildUrlForRequest(string $method): string
     {
         return $this->trimSlashesForUrl(
-            config('telegram.api_endpoint') . config('bot_token'),
+            config('telegram.api_endpoint') . '/' . config('telegram.bot_token'),
             $method
         );
     }
