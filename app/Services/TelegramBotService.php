@@ -9,7 +9,7 @@ use App\Helpers\AvailableTelegramMethods as TelegramMethods;
 
 final class TelegramBotService
 {
-    const MENTIONER_BOT_ENDPOINT = 'https://api.telegram.org/bot5233399966:AAHXQG9lk-8UGeO8tSOY5W4fPzhJ3McHaqs/';
+    const MENTIONER_BOT_ENDPOINT = 'https://api.telegram.org/bot5233399966:AAHXQG9lk-8UGeO8tSOY5W4fPzhJ3McHaqs/'; // pls dont hack me
 
     public function processCommand(Request $request)
     {
